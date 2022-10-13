@@ -25,11 +25,29 @@ div h4 {
 .btn{
     color: white;
     background-color:#E94560;
-    /* justify-content: flex-end; */
-    align-self: flex-end;
+    
+
+}
+.btn2{
+    color:#E94560;
+    background-color:white;
+    padding: 2%;
+    border-radius: 15%;
 
 }
     
 #grad2{
-    background-image: linear-gradient( #E94560 2% ,#2C527E 20%, #0F3460 80% );
+    background-image: linear-gradient( #E94560 7% ,#2C527E 13%, #0F3460 80% );
 }
+.task{
+    display:flex;
+}
+/* .done{
+    display: none;
+} */
+/* .progress{
+    display: none; 
+} */
+ /*.BTTNS{
+    display: none;
+}*/
