@@ -60,5 +60,27 @@ div h4 {
     background-color:#0F3460;
 }
 #msg{
-    color: #E94560;
+    color: #f0798d ;
 }
+
+
+
+
+
+
+
+
+
+/* Before */
+h1{
+    font-size: 80px;
+    font-family: 'Caveat' , cursive;
+    font-weight: 400;
+}
+h2{
+    font-size: 40px;
+    font-family: 'Caveat' , cursive;
+    font-weight: 400;
+}
+
+
