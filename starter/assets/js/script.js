@@ -2,9 +2,7 @@
  * In this file app.js you will find all CRUD functions name.
  * 
  */
-// function save(){
-//     alert("button save is good");
-// }
+var idToUpDate;
 
 compt=0;
 
@@ -21,14 +19,15 @@ let priority_select = document.getElementById("priority");
 let status_select = document.getElementById("status");
 let typeFeature = document.getElementById("typeF");
 let typeBug = document.getElementById("typeB");
+let editBtn = document.getElementById("editBtn");
+
+let toDo =document.getElementById("to-do-tasks-count");
+let inProgress = document.getElementById("in-progress-tasks-count");
+let done = document.getElementById("done-tasks-count");
 
 afficher();
 
-function afficher(){
-
-    let toDo = 0;
-    let inProgress = 0;
-    let done = 0;
+    function afficher(){
 
     toDoTask.innerHTML = "";
     inProgressTask.innerHTML = "";
@@ -52,9 +51,14 @@ function afficher(){
  										<span class="btn"> ${tasks[i]["priority"]}</span>
  										<span class="btn2">${tasks[i]["type"]}</span>
 									</div>
+                                    <div class = "">
+                                    <button onclick = "prepareTaskData( ${i})" type="button" class="btn4 me-3 mb-3 float-right border"  data-toggle="modal" data-target="#modal-task" >Edit</button>
+                                    <button onclick = "deleteTask(  ${i})" type="button" class="btn3 me-3 float-right border" data-dismiss="modal">Delete</button>
+                                    </div>
+
  								</div>
  							</button>`;
-           toDo++;
+           toDo.innerHTML++;
         }else if(tasks[i].status == "In Progress" ){
 
             inProgressTask.innerHTML +=`
@@ -72,10 +76,15 @@ function afficher(){
 										<span class="btn"> ${tasks[i]["priority"]}</span>
 										<span class="btn2">${tasks[i]["type"]}</span>
 									</div>
+                                    <div class = "d-flex">
+                                    <button onclick = "prepareTaskData(${i})" type="button" class="btn4 me-3 mb-3 float-right border"  data-toggle="modal" data-target="#modal-task" >Edit</button>
+                                    <button onclick = "deleteTask( ${i})" type="button" class="btn3 me-3 float-right border" data-dismiss="modal">Delete</button>
+                                    </div>
+
 								</div>
 							</button>`;
                            
-                            inProgress++;
+                            inProgress.innerHTML++; 
                         
         } else if (tasks[i].status == "Done") {
 
@@ -94,25 +103,19 @@ function afficher(){
 										<span class="btn"> ${tasks[i]["priority"]}</span>
 										<span class="btn2">${tasks[i]["type"]}</span>
 									</div>
+                                    </div>
+                                    <div class = "">
+                                    <button onclick = "prepareTaskData(${i})" type="button" class="btn4 me-3 mb-3 float-right border"  data-toggle="modal" data-target="#modal-task" >Edit</button>
+                                    <button onclick = "deleteTask( ${i})" type="button" class="btn3 me-3 float-right border" data-dismiss="modal">Delete</button>
+                                    </div>
 								</div>
 							</button>`;
                            
-                            done++;
+                            done.innerHTML++;
         }     
-                        
-
 }
+
 };
-
-function createTask() {
-//     // initialiser task form
-
-//     // Afficher le boutton save
-
-//     // Ouvrir modal form
-
- }
-
 function saveTask() {
     // Recuperer task attributes a partir les champs input ET Créez task object
     let task_type;
@@ -137,6 +140,17 @@ function saveTask() {
     afficher();
     clearInput();
 }
+function resetForm(){
+    update.style.display = "none";
+    save.style.display = "block";
+
+    document.getElementById('date').value = "";
+    document.getElementById('type').value = "";
+    document.getElementById('property').value = "";
+    document.getElementById('status').value = "";
+    document.getElementById('description').value = "";
+
+}
  
 // clear inputs
 function clearInput(){
@@ -146,132 +160,57 @@ function clearInput(){
     date.value = '';
     description.value = '';
 }
+function prepareTaskData(d){
+   idToUpDate=d;
+    if(tasks[d].type=='Bug'){
+        typeBug.checked=true;
+    }else{
+        typeFeature.checked=true;
+    }
+    title.value = tasks[d].title;
+    date.value = tasks[d].date;
+    description.value = tasks[d].description;
+    priority_select.value = tasks[d].priority;
+    status_select.value = tasks[d].status;
 
-function editTask(index) {
-    // Initialisez task form
+    update.style.display = "block";
+    save.style.display = "none";
 
-    // Affichez updates
-
-    // Delete Button
-
-    // Définir l’index en entrée cachée pour l’utiliser en Update et Delete
-
-    // Definir FORM INPUTS
-
-    // Ouvrir Modal form
+    // document.getElementById("save").innerHTML= `<button type="button" class="btn btn-warning  border d-none" data-dismiss="modal" onclick="editTask()">update</button>`;
 }
-
-function updateTask() {
-    // GET TASK ATTRIBUTES FROM INPUTS
-
-    // Créez task object
-
-    // Remplacer ancienne task par nouvelle task
-
-    // Fermer Modal form
-
-    // Refresh tasks
-
-}
-
-function deleteTask() {
-    // Get index of task in the array
-
-    // Remove task from array by index splice function
-
-    // close modal form
-
-    // refresh tasks
-}
-
 function initTaskForm() {
     // Clear task form from data
     let tasks_to_delete = document.querySelectorAll('.task');
     for(let t of tasks_to_delete){
         t.remove();
+        toDo.innerHTML='';
+        inProgress.innerHTML='';
+        done.innerHTML='';
     }
-    // Hide all action buttons
+
 }
 
-function reloadTasks() {
-    // Remove tasks elements
+function editTask() {
 
-    // Set Task count
+    if(typeBug.checked){
+        tasks[idToUpDate].type = 'Bug';
+    }else{
+        tasks[idToUpDate].type = 'Feature';
+    }
+    tasks[idToUpDate].title = title.value;
+    tasks[idToUpDate].date=date.value;
+    tasks[idToUpDate].description= description.value ;
+    tasks[idToUpDate].priority= priority_select.value ;
+    tasks[idToUpDate].status=status_select.value ;
+    initTaskForm();
+    afficher();
+}                                    
+
+function deleteTask(i) {
+    // Get index of task in the array
+    // Remove task from array by index splice function
+    tasks.splice(i,1);
+    // close modal form
+    // refresh tasks
+    afficher();
 }
-
-
-
-let msg = document.getElementById("msg");
-
-const typeInput = document.getElementsByName("type");
-var type_value;
-    for (var i = 0; i < typeInput.length; i++) {
-        if (typeInput[i].checked) {
-            type_value = typeInput[i].value;
-        }
-    }
-// let tasks = document.getElementById("tasks");
-console.log(tasks);
- 
- form.addEventListener("submit", (e)=>{
-    e.preventDefault();
-    formValidation();
-});
-
-let formValidation = ()=>{
-
-    if((title.value === "") && (type.value === "")&& (Status.value === "")&& (priority.value === "") && (date.value === "")&& (description.value === "") ){
-        console.log('failure');
-        msg.innerHTML = "NO TASK HERE";
-    } else{
-        console.log('success');
-        msg.innerHTML = "";
-    }
-};
-
-
-//     const changeSelected = (e) => {
-//     const $select = document.querySelector('#Priority');
-//     $select.value = ''
-//   };
-  
-//   document.querySelector('.changeSelected').addEventListener('click', changeSelected);
-
-//  let data = {};
-//  let acceptData = () => {
-//      data["title"] = title.value;
-//     //  data["typeInput"] = type_value;
-//      data["status"]= Status.value;
-//      data["priority"] = priority.value;
-//      data["date"] = date.value;
-//      data["description"] = description.value;
-
-//      console.log('data');
-//  }
-//     data["date"] = DateInput.value;
-//     data["discription"] = textarea.value;
-
-    // createTask();
-// };
-
-// let createTask = () => {
-// tasks.innerHTML += `
-// <button class="p-3 border-0 text-white bg-none mt-2 col-12 d-flex">
-//     <div class="">
-//         <i class="spinner-border  spinner-border-sm  text-success me-2"></i> 
-//     </div>
-//     <div class="text-start">
-//         <div class="text-white">${data.text}</div>
-//         <div class="">
-//             <div class="">${data.date}</div>
-//             <div class="" title="as investigating those is usually the first step to take in resolving the problem.">${data.discription}</div>
-//         </div>
-//         <div class="mt-2 ms-4">
-//             <span class="btn">High</span>
-//             <span class="btn2">Bug</span>
-//         </div>
-//     </div>
-// </button>
-// `;
-
-//  };

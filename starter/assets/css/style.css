@@ -50,6 +50,18 @@ div h4 {
     border-radius: 10%;
 
 }
+.btn4{
+    color:aliceblue;
+    background-color : #aa24c8;
+    margin-left: 75%;
+    border-radius: 10%;
+}
+.btn3{
+    color:aliceblue;
+    background-color : #e50e4b;
+    margin-left: 75%;
+    border-radius: 10%;
+}
 .grad2{
     background-image: linear-gradient( #E94560  , #0F3460 );
 }
@@ -62,25 +74,3 @@ div h4 {
 #msg{
     color: #f0798d ;
 }
-
-
-
-
-
-
-
-
-
-/* Before */
-h1{
-    font-size: 80px;
-    font-family: 'Caveat' , cursive;
-    font-weight: 400;
-}
-h2{
-    font-size: 40px;
-    font-family: 'Caveat' , cursive;
-    font-weight: 400;
-}
-
-
